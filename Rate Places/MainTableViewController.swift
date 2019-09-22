@@ -14,6 +14,7 @@ class MainTableViewController: UITableViewController {
     let placeName = [
                     "Vegano", "Zielona Kuchnia", "Garden Restaurant", "Pod Złotym Karpiem", "Youmiko Sushi"
                     ]
+    var cellHeight: CGFloat = 80
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +33,17 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as!  CustomTableViewCell
         
-        cell.textLabel?.text = placeName[indexPath.row]
-        cell.imageView?.image = UIImage(named: placeName[indexPath.row])
+        cell.nameLabel.text = placeName[indexPath.row]
+        cell.placePhoto.image = UIImage(named: placeName[indexPath.row])
 
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight
     }
     
 

@@ -11,10 +11,17 @@ import UIKit
 class MainTableViewController: UITableViewController {
     
     
-    let placeName = [
-                    "Vegano", "Zielona Kuchnia", "Garden Restaurant", "Pod Złotym Karpiem", "Youmiko Sushi"
-                    ]
+    let placesArray = [
+                        Place(name: "Vegano", position: "Krakow", type: "Restaurant", photo: "Vegano"),
+                        Place(name: "Zielona Kuchnia", position: "Krakow", type: "Restaurant", photo: "Zielona Kuchnia"),
+                        Place(name: "Garden Restaurant", position: "Krakow", type: "Restaurant", photo: "Garden Restaurant"),
+                        Place(name: "Pod Złotym Karpiem", position: "Krakow", type: "Restaurant", photo: "Pod Złotym Karpiem"),
+                        Place(name: "Youmiko Sushi", position: "Krakow", type: "Restaurant", photo: "Youmiko Sushi")
+    ]
     var cellHeight: CGFloat = 80
+    
+    @IBAction func cancelButtonAction(_ sender: UIStoryboardSegue) {}
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,23 +36,21 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return placeName.count
+        return placesArray.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as!  CustomTableViewCell
         
-        cell.nameLabel.text = placeName[indexPath.row]
-        cell.placePhoto.image = UIImage(named: placeName[indexPath.row])
+        cell.nameLabel.text = placesArray[indexPath.row].name
+        cell.positionLabel.text = placesArray[indexPath.row].position
+        cell.typeLabel.text = placesArray[indexPath.row].type
+        cell.placePhoto.image = UIImage(named: placesArray[indexPath.row].photo)
 
 
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeight
-    }
-    
+
 
 
     /*

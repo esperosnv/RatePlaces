@@ -25,13 +25,19 @@ class NewPlaceTableViewController: UITableViewController {
         
         if indexPath.row == 0 {
             
+            let cameraIcon = #imageLiteral(resourceName: "camera")
+            let photoIcon = #imageLiteral(resourceName: "photo")
+            
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let cameraAlertAction = UIAlertAction(title: "Open Camera", style: .default) { _ in
                   self.chooseImagePicker(source: .camera)
             }
+            cameraAlertAction.setValue(cameraIcon, forKey: "image")
+            
             let photoAlertAction = UIAlertAction(title: "Choose Photo from Library", style: .default) { _ in
                   self.chooseImagePicker(source: .photoLibrary)
             }
+            photoAlertAction.setValue(photoIcon, forKey: "image")
             let cancelAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
             
             actionSheet.addAction(cameraAlertAction)

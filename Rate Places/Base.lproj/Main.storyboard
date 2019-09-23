@@ -91,10 +91,10 @@
             </objects>
             <point key="canvasLocation" x="618.39999999999998" y="90.886699507389167"/>
         </scene>
-        <!--Table View Controller-->
+        <!--New Place-->
         <scene sceneID="hYc-C3-Btd">
             <objects>
-                <tableViewController id="jHd-Mn-6tZ" sceneMemberID="viewController">
+                <tableViewController id="jHd-Mn-6tZ" customClass="NewPlaceTableViewController" customModule="Rate_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mBh-OO-dLF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,7 +103,7 @@
                         <sections>
                             <tableViewSection id="9DC-ce-dKE">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="220" id="wDC-a6-QCy">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="220" id="wDC-a6-QCy">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wDC-a6-QCy" id="MNd-go-AdX">
@@ -122,7 +122,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="66" id="Vdb-zQ-Hhk">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="66" id="Vdb-zQ-Hhk">
                                         <rect key="frame" x="0.0" y="220" width="414" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vdb-zQ-Hhk" id="f1x-kh-8EA">
@@ -142,7 +142,10 @@
                                                             <rect key="frame" x="0.0" y="29.666666666666664" width="382" height="26"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="jHd-Mn-6tZ" id="Sw0-lK-ikN"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
@@ -155,7 +158,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="66" id="D7p-OH-fPu">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="66" id="D7p-OH-fPu">
                                         <rect key="frame" x="0.0" y="286" width="414" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D7p-OH-fPu" id="5mt-IB-hhL">
@@ -175,7 +178,10 @@
                                                             <rect key="frame" x="0.0" y="29.666666666666664" width="382" height="26"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="jHd-Mn-6tZ" id="GCO-Qh-Xba"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
@@ -188,7 +194,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="66" id="3ms-bp-xh7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="66" id="3ms-bp-xh7">
                                         <rect key="frame" x="0.0" y="352" width="414" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3ms-bp-xh7" id="xn0-YR-p74">
@@ -208,7 +214,10 @@
                                                             <rect key="frame" x="0.0" y="29.666666666666664" width="382" height="26"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="jHd-Mn-6tZ" id="Kfn-K7-SLE"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
@@ -229,7 +238,7 @@
                             <outlet property="delegate" destination="jHd-Mn-6tZ" id="P3S-yc-OKq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="arQ-Zq-m61">
+                    <navigationItem key="navigationItem" title="New Place" id="arQ-Zq-m61">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dAx-by-MlA">
                             <connections>
                                 <segue destination="xpU-KG-bmB" kind="unwind" unwindAction="cancelButtonAction:" id="dZm-KG-CI5"/>
@@ -237,6 +246,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="uCE-zX-3bm"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="photoOfPlace" destination="83K-MP-GVG" id="6bT-H7-t6N"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k0L-O7-ude" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="xpU-KG-bmB" userLabel="Exit" sceneMemberID="exit"/>

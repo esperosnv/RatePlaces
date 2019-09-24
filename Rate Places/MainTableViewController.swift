@@ -11,16 +11,27 @@ import UIKit
 class MainTableViewController: UITableViewController {
     
     
-    let placesArray = [
-                        Place(name: "Vegano", position: "Krakow", type: "Restaurant", photo: "Vegano"),
-                        Place(name: "Zielona Kuchnia", position: "Krakow", type: "Restaurant", photo: "Zielona Kuchnia"),
-                        Place(name: "Garden Restaurant", position: "Krakow", type: "Restaurant", photo: "Garden Restaurant"),
-                        Place(name: "Pod Złotym Karpiem", position: "Krakow", type: "Restaurant", photo: "Pod Złotym Karpiem"),
-                        Place(name: "Youmiko Sushi", position: "Krakow", type: "Restaurant", photo: "Youmiko Sushi")
+    var placesArray = [
+                        Place(name: "Vegano", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Vegano"),
+                        Place(name: "Zielona Kuchnia", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Zielona Kuchnia"),
+                        Place(name: "Garden Restaurant", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Garden Restaurant"),
+                        Place(name: "Pod Złotym Karpiem", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Pod Złotym Karpiem"),
+                        Place(name: "Youmiko Sushi", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Youmiko Sushi")
     ]
     var cellHeight: CGFloat = 80
     
-    @IBAction func cancelButtonAction(_ sender: UIStoryboardSegue) {}
+
+    
+    @IBAction func unwindSegueSaveButton(_ segue: UIStoryboardSegue) {
+        
+        guard let newPlaceFromOtherVC = segue.source as? NewPlaceTableViewController else { return }
+        // add new object to data array.
+        placesArray.append(newPlaceFromOtherVC.saveNewPlace())
+        
+        tableView.reloadData()
+    }
+    
+    
     
 
     override func viewDidLoad() {
@@ -43,10 +54,18 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as!  CustomTableViewCell
         
-        cell.nameLabel.text = placesArray[indexPath.row].name
-        cell.positionLabel.text = placesArray[indexPath.row].position
-        cell.typeLabel.text = placesArray[indexPath.row].type
-        cell.placePhoto.image = UIImage(named: placesArray[indexPath.row].photo)
+        let currentPlace = placesArray[indexPath.row]
+        cell.nameLabel.text = currentPlace.name
+        cell.positionLabel.text = currentPlace.position
+        cell.typeLabel.text = currentPlace.type
+        
+        if currentPlace.photo == nil {
+            cell.placePhoto.image = UIImage(named: currentPlace.baseImage!)
+        } else {
+            cell.placePhoto.image = currentPlace.photo
+        }
+
+        
 
 
         return cell

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class MainTableViewController: UITableViewController {
     
+    var fetchResultsController: NSFetchedResultsController<Place>!
     
     var placesArray: [Place] = []
     
@@ -28,11 +30,8 @@ class MainTableViewController: UITableViewController {
         
         guard let newPlaceFromOtherVC = segue.source as? NewPlaceTableViewController else { return }
         // add new object to data array.
-        
         newPlaceFromOtherVC.saveNewPlace()
-        
         placesArray.append(newPlaceFromOtherVC.newPlace!)
-        
         tableView.reloadData()
     }
     
@@ -40,6 +39,25 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
+        // fetch Request
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+        let sortDescriptorPlace = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptorPlace] // применяем тут фильтр
+        
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        }
+        
+        do {
+            try fetchResultsController.performFetch()
+            placesArray = fetchResultsController.fetchedObjects!
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        
          tableView.tableFooterView = UIView()
     
     }

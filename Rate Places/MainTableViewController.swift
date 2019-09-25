@@ -11,13 +11,15 @@ import UIKit
 class MainTableViewController: UITableViewController {
     
     
-    var placesArray = [
-                        Place(name: "Vegano", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Vegano"),
-                        Place(name: "Zielona Kuchnia", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Zielona Kuchnia"),
-                        Place(name: "Garden Restaurant", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Garden Restaurant"),
-                        Place(name: "Pod Złotym Karpiem", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Pod Złotym Karpiem"),
-                        Place(name: "Youmiko Sushi", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Youmiko Sushi")
-    ]
+    var placesArray: [Place] = []
+    
+//                        Place(name: "Vegano", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Vegano"),
+//                        Place(name: "Zielona Kuchnia", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Zielona Kuchnia"),
+//                        Place(name: "Garden Restaurant", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Garden Restaurant"),
+//                        Place(name: "Pod Złotym Karpiem", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Pod Złotym Karpiem"),
+//                        Place(name: "Youmiko Sushi", position: "Krakow", type: "Restaurant", photo: nil, baseImage: "Youmiko Sushi")
+//    ]
+//
     var cellHeight: CGFloat = 80
     
 
@@ -26,12 +28,13 @@ class MainTableViewController: UITableViewController {
         
         guard let newPlaceFromOtherVC = segue.source as? NewPlaceTableViewController else { return }
         // add new object to data array.
-        placesArray.append(newPlaceFromOtherVC.saveNewPlace())
+        
+        newPlaceFromOtherVC.saveNewPlace()
+        
+        placesArray.append(newPlaceFromOtherVC.newPlace!)
         
         tableView.reloadData()
     }
-    
-    
     
 
     override func viewDidLoad() {
@@ -59,14 +62,13 @@ class MainTableViewController: UITableViewController {
         cell.positionLabel.text = currentPlace.position
         cell.typeLabel.text = currentPlace.type
         
+        
+        // могут быть изменения тут
         if currentPlace.photo == nil {
             cell.placePhoto.image = UIImage(named: currentPlace.baseImage!)
         } else {
-            cell.placePhoto.image = currentPlace.photo
+            cell.placePhoto.image =  UIImage(data: currentPlace.photo!)  // преобразовываем attribute типа Data в UIImage
         }
-
-        
-
 
         return cell
     }

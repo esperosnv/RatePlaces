@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4712B6652337D31300F1BD4D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712B6642337D31300F1BD4D /* CustomTableViewCell.swift */; };
-		478FC85F2338252200632A1E /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478FC85E2338252100632A1E /* PlaceModel.swift */; };
+		4720FA08233A88FF00C35A43 /* RatePlaces.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4720FA06233A88FF00C35A43 /* RatePlaces.xcdatamodeld */; };
 		47C008982332B9830066B802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C008972332B9830066B802 /* AppDelegate.swift */; };
 		47C0089D2332B9830066B802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47C0089B2332B9830066B802 /* Main.storyboard */; };
 		47C0089F2332B98A0066B802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47C0089E2332B98A0066B802 /* Assets.xcassets */; };
@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		4712B6642337D31300F1BD4D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
-		478FC85E2338252100632A1E /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
+		4720FA07233A88FF00C35A43 /* RatePlaces.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RatePlaces.xcdatamodel; sourceTree = "<group>"; };
 		47C008942332B9830066B802 /* Rate Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rate Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47C008972332B9830066B802 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47C0089C2332B9830066B802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,13 +61,13 @@
 			isa = PBXGroup;
 			children = (
 				47C008972332B9830066B802 /* AppDelegate.swift */,
-				478FC85E2338252100632A1E /* PlaceModel.swift */,
 				4712B6642337D31300F1BD4D /* CustomTableViewCell.swift */,
 				47E8FFB823390CA700426534 /* NewPlaceTableViewController.swift */,
 				47C008C72333C37A0066B802 /* MainTableViewController.swift */,
 				47C0089B2332B9830066B802 /* Main.storyboard */,
 				47C0089E2332B98A0066B802 /* Assets.xcassets */,
 				47C008A02332B98A0066B802 /* LaunchScreen.storyboard */,
+				4720FA06233A88FF00C35A43 /* RatePlaces.xcdatamodeld */,
 				47C008A32332B98A0066B802 /* Info.plist */,
 			);
 			path = "Rate Places";
@@ -145,8 +145,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4712B6652337D31300F1BD4D /* CustomTableViewCell.swift in Sources */,
-				478FC85F2338252200632A1E /* PlaceModel.swift in Sources */,
 				47C008C82333C37A0066B802 /* MainTableViewController.swift in Sources */,
+				4720FA08233A88FF00C35A43 /* RatePlaces.xcdatamodeld in Sources */,
 				47C008982332B9830066B802 /* AppDelegate.swift in Sources */,
 				47E8FFB923390CA700426534 /* NewPlaceTableViewController.swift in Sources */,
 			);
@@ -348,6 +348,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4720FA06233A88FF00C35A43 /* RatePlaces.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4720FA07233A88FF00C35A43 /* RatePlaces.xcdatamodel */,
+			);
+			currentVersion = 4720FA07233A88FF00C35A43 /* RatePlaces.xcdatamodel */;
+			path = RatePlaces.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 47C0088C2332B9830066B802 /* Project object */;
 }

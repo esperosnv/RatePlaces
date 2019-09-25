@@ -27,6 +27,8 @@ class NewPlaceTableViewController: UITableViewController {
         placeNameTextField.addTarget(self, action: #selector(textFileChanged), for: .editingChanged)
         
         tableView.tableFooterView = UIView()
+        
+       
     }
     
     
@@ -67,20 +69,37 @@ class NewPlaceTableViewController: UITableViewController {
     
     
     // saveButton click
-    func saveNewPlace() -> Place {
+    func saveNewPlace() {
         
-        newPlace = Place(name: placeNameTextField.text!,
-                         position: placePositionTextField.text,
-                         type: placeTypeTextField.text,
-                         photo: photoOfPlace.image,
-                         baseImage: nil)
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            newPlace = Place(context: context)
+
+            newPlace?.name = placeNameTextField.text
+            newPlace?.position = placePositionTextField.text
+            newPlace?.type = placeTypeTextField.text
+            newPlace?.photo = photoOfPlace.image?.pngData()
+            newPlace?.baseImage = ""
+            
+            do {
+                try context.save()
+                print("Saving succeeded!")
+            } catch let error as NSError {
+                print("Saving failed! \(error), \(error.userInfo)")
+            }
+        }
+
+        //тут мы будем сохранять контекст
+        
+        
+        // newPlace = Place(name: placeNameTextField.text!,
+//                         position: placePositionTextField.text,
+//                         type: placeTypeTextField.text,
+//                         photo: photoOfPlace.image,
+//                         baseImage: nil)
         // будем принудительно вызывать  placeNameTextField.text!, поскольку мы точно уверены, что там есть текст, иначе бы кнопка не сработала бы.
         // photoName используется только для тестовых мест
         
-        return newPlace!
     }
-    
-    
 }
 
 // MARK: Extension Text Fieldield Delegate

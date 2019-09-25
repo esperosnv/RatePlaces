@@ -36,6 +36,7 @@ class MainTableViewController: UITableViewController {
     }
     
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -52,7 +53,6 @@ class MainTableViewController: UITableViewController {
         do {
             try fetchResultsController.performFetch()
             placesArray = fetchResultsController.fetchedObjects!
-            
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -68,7 +68,6 @@ class MainTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return placesArray.count
     }
 
@@ -87,12 +86,45 @@ class MainTableViewController: UITableViewController {
         } else {
             cell.placePhoto.image =  UIImage(data: currentPlace.photo!)  // преобразовываем attribute типа Data в UIImage
         }
-
         return cell
     }
 
 
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let shareAction = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
+            
+            let shareText = "Now I'm in here. " + self.placesArray[indexPath.row].name!
+            if let shareImage = UIImage(data: self.placesArray[indexPath.row].photo as! Data) {
+                let activityController = UIActivityViewController(activityItems: [shareText, shareImage], applicationActivities: nil)
+                self.present(activityController, animated: true, completion: nil)
+            }
+        }
+        
+        
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (action, indexPath) in
+            
+            self.placesArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+             if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+                
+                let objectToDelete = self.fetchResultsController.object(at: indexPath)
+                context.delete(objectToDelete)
+                
+                do {
+                    try context.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        shareAction.backgroundColor = UIColor.blue
+        deleteAction.backgroundColor = UIColor.red
 
+        return [shareAction, deleteAction]
+    }
     /*
     // MARK: - Navigation
 
@@ -102,5 +134,6 @@ class MainTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
 
 }

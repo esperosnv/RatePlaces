@@ -53,6 +53,10 @@ class MainTableViewController: UITableViewController {
         do {
             try fetchResultsController.performFetch()
             placesArray = fetchResultsController.fetchedObjects!
+            
+            if placesArray == [] {
+                addExampleItem()
+            }
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -95,7 +99,7 @@ class MainTableViewController: UITableViewController {
         let shareAction = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
             
             let shareText = "Now I'm in here. " + self.placesArray[indexPath.row].name!
-            if let shareImage = UIImage(data: self.placesArray[indexPath.row].photo as! Data) {
+            if let shareImage = UIImage(data: (self.placesArray[indexPath.row].photo as! Data)) {
                 let activityController = UIActivityViewController(activityItems: [shareText, shareImage], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             }
@@ -125,6 +129,31 @@ class MainTableViewController: UITableViewController {
 
         return [shareAction, deleteAction]
     }
+    
+    
+
+    func addExampleItem() {
+        
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            
+            let initialPlace = Place(context: context)
+            initialPlace.name = "Zielona Kuchnia"
+            initialPlace.position = "Krakow"
+            initialPlace.type = "Restaurant"
+            initialPlace.photo = UIImage(named: "Zielona Kuchnia")?.pngData()
+            initialPlace.baseImage = nil
+
+            do {
+                try context.save()
+                placesArray.append(initialPlace)
+            } catch let error as NSError {
+                print("Saving failed! \(error), \(error.userInfo)")
+            }
+            
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 

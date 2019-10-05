@@ -11,6 +11,8 @@ import UIKit
 class NewPlaceTableViewController: UITableViewController {
     
     var newPlace: Place?
+    var editedPlace: Place?
+
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var photoOfPlace: UIImageView!
@@ -26,8 +28,9 @@ class NewPlaceTableViewController: UITableViewController {
         
         placeNameTextField.addTarget(self, action: #selector(textFileChanged), for: .editingChanged)
         
-        tableView.tableFooterView = UIView()
+        setupEditedPlace()
         
+        tableView.tableFooterView = UIView()
        
     }
     
@@ -40,6 +43,7 @@ class NewPlaceTableViewController: UITableViewController {
             let photoIcon = #imageLiteral(resourceName: "photo")
             
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
             let cameraAlertAction = UIAlertAction(title: "Open Camera", style: .default) { _ in
                   self.chooseImagePicker(source: .camera)
             }
@@ -49,6 +53,7 @@ class NewPlaceTableViewController: UITableViewController {
                   self.chooseImagePicker(source: .photoLibrary)
             }
             photoAlertAction.setValue(photoIcon, forKey: "image")
+            
             let cancelAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
             
             actionSheet.addAction(cameraAlertAction)
@@ -62,16 +67,19 @@ class NewPlaceTableViewController: UITableViewController {
         }
     }
     
+    
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
     
     
     
-    // saveButton click
-    func saveNewPlace() {
+    // MARK: - Save Button click
+    
+    func savePlace() {
         
         if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            
             newPlace = Place(context: context)
 
             newPlace?.name = placeNameTextField.text
@@ -87,17 +95,29 @@ class NewPlaceTableViewController: UITableViewController {
                 print("Saving failed! \(error), \(error.userInfo)")
             }
         }
+    }
+    
+    // MARK: - Edit Place
+    
+    func setupEditedPlace() {
+        
+        if editedPlace != nil {
+            
+            guard let imageData = editedPlace?.photo, let imageOfEditedPlace = UIImage(data: imageData) else {return}
+            
+            photoOfPlace.image = imageOfEditedPlace
+            placeNameTextField.text = editedPlace?.name
+            placePositionTextField.text = editedPlace?.position
+            placeTypeTextField.text = editedPlace?.type
+            
+            changeNavigationBarForEditedPlaces()
+        }
+    }
+    
+    func changeNavigationBarForEditedPlaces() {
 
-        //тут мы будем сохранять контекст
-        
-        
-        // newPlace = Place(name: placeNameTextField.text!,
-//                         position: placePositionTextField.text,
-//                         type: placeTypeTextField.text,
-//                         photo: photoOfPlace.image,
-//                         baseImage: nil)
-        // будем принудительно вызывать  placeNameTextField.text!, поскольку мы точно уверены, что там есть текст, иначе бы кнопка не сработала бы.
-        // photoName используется только для тестовых мест
+        title = editedPlace?.name
+        saveButton.isEnabled = true
         
     }
 }
@@ -129,7 +149,9 @@ extension NewPlaceTableViewController: UITextFieldDelegate {
 extension NewPlaceTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
+        
         if UIImagePickerController.isSourceTypeAvailable(source) {
+            
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = source

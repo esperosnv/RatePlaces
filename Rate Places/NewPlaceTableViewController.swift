@@ -115,7 +115,8 @@ class NewPlaceTableViewController: UITableViewController {
     }
     
     func changeNavigationBarForEditedPlaces() {
-
+        
+        navigationItem.leftBarButtonItem = nil
         title = editedPlace?.name
         saveButton.isEnabled = true
         

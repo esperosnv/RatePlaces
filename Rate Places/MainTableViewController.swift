@@ -12,20 +12,17 @@ import CoreData
 class MainTableViewController: UITableViewController {
     
     var fetchResultsController: NSFetchedResultsController<Place>!
-    
     var placesArray: [Place] = []
+    var filteredArray: [Place] = []
     
-    var editIndexPath: IndexPath?
+    var searchController: UISearchController!
+
+    
     
     @IBAction func unwindSegueSaveButton(_ segue: UIStoryboardSegue) {
         
         guard let newPlaceFromOtherVC = segue.source as? NewPlaceTableViewController else { return }
         
-        if editIndexPath != nil {
-            deletePlace(indexPath: editIndexPath!)
-            editIndexPath = nil
-        }
-
             newPlaceFromOtherVC.savePlace()
             downloadCoreData()
             tableView.reloadData()
@@ -35,11 +32,30 @@ class MainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-         downloadCoreData()
         
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        tableView.tableHeaderView = searchController.searchBar
+       
+        definesPresentationContext = true
+        
+         downloadCoreData()
          tableView.tableFooterView = UIView()
     
+    }
+    
+    func displayPlaceAt(indexPath: IndexPath) -> Place {
+        
+        let currentPlace: Place
+        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            currentPlace = filteredArray[indexPath.row]
+        } else {
+            currentPlace = placesArray[indexPath.row]
+        }
+        return currentPlace
     }
     
 
@@ -47,19 +63,25 @@ class MainTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return placesArray.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredArray.count
+        } else {
+            return placesArray.count
+        }
+       
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell", for: indexPath) as!  CustomTableViewCell
         
-        let currentPlace = placesArray[indexPath.row]
+        let currentPlace = displayPlaceAt(indexPath: indexPath)
         cell.nameLabel.text = currentPlace.name
         cell.positionLabel.text = currentPlace.position
         cell.typeLabel.text = currentPlace.type
         
         if currentPlace.photo == nil {
-            cell.placePhoto.image = UIImage(named: currentPlace.baseImage!)
+            cell.placePhoto.image = UIImage(named: "Add Photo")
         } else {
             cell.placePhoto.image =  UIImage(data: currentPlace.photo!)
         }
@@ -121,7 +143,7 @@ class MainTableViewController: UITableViewController {
         
         if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
             
-            let objectToDelete = self.fetchResultsController.object(at: indexPath)
+            let objectToDelete = self.fetchResultsController.object(at: indexPath)            
             context.delete(objectToDelete)
             
             do {
@@ -155,7 +177,6 @@ class MainTableViewController: UITableViewController {
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-        
     }
     
     
@@ -168,18 +189,34 @@ class MainTableViewController: UITableViewController {
             
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
            
-            editIndexPath = indexPath
-           
-            let selectedPlace = placesArray[indexPath.row]
-            
-            let newPlaceTVC = segue.destination as! NewPlaceTableViewController
-            newPlaceTVC.editedPlace = selectedPlace
- 
+            let selectedPlace = displayPlaceAt(indexPath: indexPath)
 
+            let newPlaceTVC = segue.destination as! NewPlaceTableViewController
+            newPlaceTVC.placeToEdit = selectedPlace
         }
 
     }
     
-    
+    func filterContent(searchText: String) {
+        filteredArray = placesArray.filter{ (restaurant) -> Bool in
+            return((restaurant.name?.lowercased().contains(searchText.lowercased()))!)
+        }
+    }
+}
 
+extension MainTableViewController: UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContent(searchText: searchController.searchBar.text!)
+        tableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if searchBar.text != "" {
+            navigationController?.hidesBarsOnSwipe = false
+        }
+    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationController?.hidesBarsOnSwipe = true
+    }
+    
 }

@@ -10,8 +10,7 @@ import UIKit
 
 class NewPlaceTableViewController: UITableViewController {
     
-    var newPlace: Place?
-    var editedPlace: Place?
+    var placeToEdit: Place?
 
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -25,11 +24,8 @@ class NewPlaceTableViewController: UITableViewController {
         super.viewDidLoad()
         
         saveButton.isEnabled = false
-        
         placeNameTextField.addTarget(self, action: #selector(textFileChanged), for: .editingChanged)
-        
         setupEditedPlace()
-        
         tableView.tableFooterView = UIView()
        
     }
@@ -80,13 +76,17 @@ class NewPlaceTableViewController: UITableViewController {
         
         if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
             
-            newPlace = Place(context: context)
+            if placeToEdit != nil {
+                context.delete(placeToEdit!)
+            }
+            
+            let newPlace = Place(context: context)
 
-            newPlace?.name = placeNameTextField.text
-            newPlace?.position = placePositionTextField.text
-            newPlace?.type = placeTypeTextField.text
-            newPlace?.photo = photoOfPlace.image?.pngData()
-            newPlace?.baseImage = ""
+            newPlace.name = placeNameTextField.text
+            newPlace.position = placePositionTextField.text
+            newPlace.type = placeTypeTextField.text
+            newPlace.photo = photoOfPlace.image?.pngData()
+            newPlace.baseImage = ""
             
             do {
                 try context.save()
@@ -95,20 +95,21 @@ class NewPlaceTableViewController: UITableViewController {
                 print("Saving failed! \(error), \(error.userInfo)")
             }
         }
+        
     }
     
     // MARK: - Edit Place
     
     func setupEditedPlace() {
         
-        if editedPlace != nil {
+        if placeToEdit != nil {
             
-            guard let imageData = editedPlace?.photo, let imageOfEditedPlace = UIImage(data: imageData) else {return}
+            guard let imageData = placeToEdit?.photo, let imageOfEditedPlace = UIImage(data: imageData) else {return}
             
             photoOfPlace.image = imageOfEditedPlace
-            placeNameTextField.text = editedPlace?.name
-            placePositionTextField.text = editedPlace?.position
-            placeTypeTextField.text = editedPlace?.type
+            placeNameTextField.text = placeToEdit?.name
+            placePositionTextField.text = placeToEdit?.position
+            placeTypeTextField.text = placeToEdit?.type
             
             changeNavigationBarForEditedPlaces()
         }
@@ -117,9 +118,8 @@ class NewPlaceTableViewController: UITableViewController {
     func changeNavigationBarForEditedPlaces() {
         
         navigationItem.leftBarButtonItem = nil
-        title = editedPlace?.name
+        title = placeToEdit?.name
         saveButton.isEnabled = true
-        
     }
 }
 
@@ -134,7 +134,6 @@ extension NewPlaceTableViewController: UITextFieldDelegate {
     }
     
     // addTarged func
-    
     @objc func textFileChanged() {
         if placeNameTextField.text?.isEmpty == false  {
             saveButton.isEnabled = true
@@ -152,7 +151,6 @@ extension NewPlaceTableViewController: UIImagePickerControllerDelegate, UINaviga
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
         
         if UIImagePickerController.isSourceTypeAvailable(source) {
-            
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = source

@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Cosmos
 
 class NewPlaceTableViewController: UITableViewController {
     
     var placeToEdit: Place?
+    var currentRating: Double = 0.0
 
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -19,6 +21,7 @@ class NewPlaceTableViewController: UITableViewController {
     @IBOutlet weak var placePositionTextField: UITextField!
     @IBOutlet weak var placeTypeTextField: UITextField!
     
+    @IBOutlet weak var cosmosView2: CosmosView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,11 @@ class NewPlaceTableViewController: UITableViewController {
         saveButton.isEnabled = false
         placeNameTextField.addTarget(self, action: #selector(textFileChanged), for: .editingChanged)
         setupEditedPlace()
+        
+        cosmosView2.didTouchCosmos = { rating in
+            self.currentRating = rating
+        }
+        
         tableView.tableFooterView = UIView()
        
     }
@@ -87,6 +95,7 @@ class NewPlaceTableViewController: UITableViewController {
             newPlace.type = placeTypeTextField.text
             newPlace.photo = photoOfPlace.image?.pngData()
             newPlace.baseImage = ""
+            newPlace.rating = currentRating
             
             do {
                 try context.save()
@@ -110,6 +119,7 @@ class NewPlaceTableViewController: UITableViewController {
             placeNameTextField.text = placeToEdit?.name
             placePositionTextField.text = placeToEdit?.position
             placeTypeTextField.text = placeToEdit?.type
+            cosmosView2.rating = placeToEdit!.rating
             
             changeNavigationBarForEditedPlaces()
         }

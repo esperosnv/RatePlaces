@@ -18,7 +18,6 @@ class MainTableViewController: UITableViewController {
     var searchController: UISearchController!
 
     
-    
     @IBAction func unwindSegueSaveButton(_ segue: UIStoryboardSegue) {
         
         guard let newPlaceFromOtherVC = segue.source as? NewPlaceTableViewController else { return }
@@ -40,6 +39,8 @@ class MainTableViewController: UITableViewController {
         tableView.tableHeaderView = searchController.searchBar
        
         definesPresentationContext = true
+        
+        
         
          downloadCoreData()
          tableView.tableFooterView = UIView()
@@ -79,6 +80,7 @@ class MainTableViewController: UITableViewController {
         cell.nameLabel.text = currentPlace.name
         cell.positionLabel.text = currentPlace.position
         cell.typeLabel.text = currentPlace.type
+        cell.cosmosVeiw.rating = currentPlace.rating
         
         if currentPlace.photo == nil {
             cell.placePhoto.image = UIImage(named: "Add Photo")
@@ -123,6 +125,7 @@ class MainTableViewController: UITableViewController {
             initialPlace.type = "Restaurant"
             initialPlace.photo = UIImage(named: "Zielona Kuchnia")?.pngData()
             initialPlace.baseImage = nil
+            initialPlace.rating = 5.0
 
             do {
                 try context.save()

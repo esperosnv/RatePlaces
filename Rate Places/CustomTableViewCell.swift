@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import Cosmos
 
 class CustomTableViewCell: UITableViewCell {
 
     @IBOutlet weak var placePhoto: UIImageView!
-    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var cosmosVeiw: CosmosView!
     
     
     
